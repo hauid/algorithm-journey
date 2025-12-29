@@ -31,6 +31,7 @@ public class Code02_SurroundedRegions {
 		}
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < m; j++) {
+				// 注意顺序,必须先将o设置为x
 				if (board[i][j] == 'O') {
 					board[i][j] = 'X';
 				}
