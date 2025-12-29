@@ -4,6 +4,10 @@ package class058;
 // 给你一个 m x n 的矩阵 board ，由若干字符 'X' 和 'O' ，找到所有被 'X' 围绕的区域
 // 并将这些区域里所有的 'O' 用 'X' 填充。
 // 测试链接 : https://leetcode.cn/problems/surrounded-regions/
+// 把格子看成一个个点亮的,简单的理解就是里面的格子能不能最后连到最外围的格子
+// 反过来思考与最外围的'o'相连的格子保留为'o',其余换成x
+// 所以对最外围的'o'进行洪水填充,相连都设置为中间量y
+// 最后统一遍历将为y的设置为o,为o的设置为x
 public class Code02_SurroundedRegions {
 
 	public static void solve(char[][] board) {
