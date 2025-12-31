@@ -11,6 +11,7 @@ public class Code03_MakingLargeIsland {
 		int n = grid.length;
 		int m = grid[0].length;
 		int id = 2;
+		// “预处理 + 复用 + 去重查询” —— 把重复计算转化为一次统计、多次查询。
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < m; j++) {
 				if (grid[i][j] == 1) {
