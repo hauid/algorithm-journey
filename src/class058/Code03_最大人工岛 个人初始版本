@@ -1,0 +1,37 @@
+class Solution {
+    int res = 0;
+    public int largestIsland(int[][] grid) {
+        // 将任意格子先填成1 判断最后的面积大小
+        int  n = grid.length;
+        int m = grid[0].length;
+        int tmp = 0;
+        boolean hasZero = false;
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < m; j++){
+                if (grid[i][j] == 0) {
+                hasZero = true;
+                grid[i][j] = 1;
+                int area = dfs(grid, i, j, new HashSet<>());
+                tmp = Math.max(tmp, area);
+                grid[i][j] = 0;
+                }   
+            }
+        }
+        return hasZero ?tmp:n*n;
+    }
+
+    public int dfs(int[][] grid, int i, int j, Set<String> visited) {
+    if (i < 0 || i >= grid.length || j < 0 || j >= grid.length || grid[i][j] == 0) {
+        return 0;
+    }
+    String key = i + "," + j;
+    if (visited.contains(key)) return 0;
+    visited.add(key);
+    return 1 
+         + dfs(grid, i-1, j, visited)
+         + dfs(grid, i+1, j, visited)
+         + dfs(grid, i, j-1, visited)
+         + dfs(grid, i, j+1, visited);
+}
+
+}
