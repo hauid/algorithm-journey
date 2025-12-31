@@ -6,10 +6,10 @@ package class094;
 // 你每天最多能砍1棵树，砍下这棵树的收益为：
 // 这棵树的初始重量 + 这棵树增长到这一天的总增重
 // 从第1天开始，你一共有m天可以砍树，返回m天内你获得的最大收益
-// 测试链接 : https://pintia.cn/problem-sets/91827364500/exam/problems/91827367873
-// 请同学们务必参考如下代码中关于输入、输出的处理
-// 这是输入输出处理效率很高的写法
+// 测试链接 : https://pintia.cn/problem-sets/91827364500/exam/problems/type/7?problemSetProblemId=91827367873
 // 提交以下的code，提交时请把类名改成"Main"，可以直接通过
+// 不过现在这个题收费了，验证很困难了，于是我找到了一个平替的题目
+// 本节课Code06_CookingPlan文件就是平替题目，贪心的思路是非常类似的
 
 import java.io.BufferedReader;
 import java.io.IOException;

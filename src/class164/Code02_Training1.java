@@ -2,10 +2,11 @@ package class164;
 
 // youyou的军训，java版
 // 图里有n个点，m条无向边，每条边给定不同的边权，图里可能有若干个连通的部分
-// 一共有q条操作，每条操作都是如下的三种类型中的一种
-// 操作 1 x   : 限制变量limit，把limit的值改成x
-// 操作 2 x   : 点x不能走过任何边权小于limit的边，打印此时x所在的连通区域大小
-// 操作 3 x y : 第x条边的边权修改为y，题目保证修改之后，第x条边的边权排名不变
+// 一开始limit = 0，接下来有q条操作，每种操作的格式如下
+// 操作 1 x   : 所有修改操作生效，然后limit设置成x
+// 操作 2 x   : 从点x出发，只能走 边权 >= limit 的边，查询最多到达几个点
+// 操作 3 x y : 第x条边的边权修改为y，不是立刻生效，等到下次操作1发生时生效
+// 题目保证边权不管如何修改，所有边权都不相等，并且每条边的边权排名不发生变化
 // 1 <= n、m、q <= 4 * 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/P9638
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
@@ -19,13 +20,21 @@ public class Code02_Training1 {
 
 	public static int MAXK = 800001;
 	public static int MAXM = 400001;
-	public static int MAXH = 20;
+	public static int MAXP = 20;
 	public static int n, m, q;
 
 	// 每条边的信息，节点u、节点v、边权w、边的编号i
 	public static int[][] edge = new int[MAXM][4];
 	// 边的编号对应重构树上的点的编号
 	public static int[] edgeToTree = new int[MAXM];
+
+	// 边权的修改操作先不生效，等到下次操作1发生时生效
+	// 修改了哪些边
+	public static int[] pendEdge = new int[MAXM];
+	// 修改成了什么边权
+	public static int[] pendVal = new int[MAXM];
+	// 修改操作的个数
+	public static int cntp = 0;
 
 	// 并查集
 	public static int[] father = new int[MAXK];
@@ -42,7 +51,7 @@ public class Code02_Training1 {
 	// 树上dfs，Kruskal重构树的节点，子树上面有几个叶节点
 	public static int[] leafsiz = new int[MAXK];
 	// 树上dfs，Kruskal重构树的节点，倍增表
-	public static int[][] stjump = new int[MAXK][MAXH];
+	public static int[][] stjump = new int[MAXK][MAXP];
 
 	// 并查集的find方法，需要改成迭代版不然会爆栈，C++实现不需要
 	public static int find(int i) {
@@ -86,7 +95,7 @@ public class Code02_Training1 {
 	// dfs1是递归函数，需要改成迭代版，不然会爆栈，C++实现不需要
 	public static void dfs1(int u, int fa) {
 		stjump[u][0] = fa;
-		for (int p = 1; p < MAXH; p++) {
+		for (int p = 1; p < MAXP; p++) {
 			stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
 		}
 		for (int e = head[u]; e > 0; e = next[e]) {
@@ -128,7 +137,7 @@ public class Code02_Training1 {
 			pop();
 			if (e == -1) {
 				stjump[u][0] = f;
-				for (int p = 1; p < MAXH; p++) {
+				for (int p = 1; p < MAXP; p++) {
 					stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
 				}
 				e = head[u];
@@ -152,7 +161,7 @@ public class Code02_Training1 {
 	}
 
 	public static int query(int u, int limit) {
-		for (int p = MAXH - 1; p >= 0; p--) {
+		for (int p = MAXP - 1; p >= 0; p--) {
 			if (stjump[u][p] > 0 && nodeKey[stjump[u][p]] >= limit) {
 				u = stjump[u][p];
 			}
@@ -181,6 +190,11 @@ public class Code02_Training1 {
 		for (int i = 1; i <= q; i++) {
 			op = io.nextInt();
 			if (op == 1) {
+				// 收集的修改操作生效
+				for (int k = 1; k <= cntp; k++) {
+					nodeKey[edgeToTree[pendEdge[k]]] = pendVal[k];
+				}
+				cntp = 0;
 				limit = io.nextInt();
 			} else if (op == 2) {
 				x = io.nextInt();
@@ -188,8 +202,10 @@ public class Code02_Training1 {
 			} else {
 				x = io.nextInt();
 				y = io.nextInt();
+				// 收集修改操作
 				if (edgeToTree[x] != 0) {
-					nodeKey[edgeToTree[x]] = y;
+					pendEdge[++cntp] = x;
+					pendVal[cntp] = y;
 				}
 			}
 		}

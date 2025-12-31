@@ -1,11 +1,12 @@
 package class164;
 
 // 归程，C++版
-// 图里有n个点，m条无向边，每条边给定长度l和海拔a，所有点都连通
-// 一共有q条查询，查询格式如下
-// 查询 x y : 海拔 > y的边，走过没有代价
-//            海拔 <= y的边，走过的代价为边的长度
-//            从点x出发到达1号点，打印最小的代价
+// 一共有n个点，m条无向边，原图连通，每条边有长度l和海拔a
+// 一共有q条查询，格式如下
+// 查询 x y : 起初走过海拔 > y的边免费，可视为开车，但是车不能走海拔 <= y的边
+//            你可以在任意节点下车，车不能再用
+//            下车后经过每条边的长度(包括海拔 > y 的边)，都算入步行长度
+//            你想从点x到1号点，打印最小步行长度
 // 1 <= n <= 2 * 10^5
 // 1 <= m、q <= 4 * 10^5
 // 本题要求强制在线，具体规定请打开测试链接查看
@@ -38,7 +39,7 @@ package class164;
 //const int MAXN = 200001;
 //const int MAXK = 400001;
 //const int MAXM = 400001;
-//const int MAXH = 20;
+//const int MAXP = 20;
 //int INF = 2000000001;
 //int t, n, m, q, k, s;
 //Edge edge[MAXM];
@@ -63,7 +64,7 @@ package class164;
 //int cntu;
 //
 //int mindist[MAXK];
-//int stjump[MAXK][MAXH];
+//int stjump[MAXK][MAXP];
 //
 //void clear() {
 //    cntg = 0;
@@ -151,7 +152,7 @@ package class164;
 //
 //void dfs(int u, int fa) {
 //    stjump[u][0] = fa;
-//    for(int p = 1; p < MAXH; p++) {
+//    for(int p = 1; p < MAXP; p++) {
 //        stjump[u][p] = stjump[ stjump[u][p - 1] ][p - 1];
 //    }
 //    for(int e = headk[u]; e > 0; e = nextk[e]) {
@@ -168,7 +169,7 @@ package class164;
 //}
 //
 //int query(int node, int line) {
-//    for(int p = MAXH - 1; p >= 0; p--) {
+//    for(int p = MAXP - 1; p >= 0; p--) {
 //        if(stjump[node][p] > 0 && nodeKey[stjump[node][p]] > line) {
 //            node = stjump[node][p];
 //        }

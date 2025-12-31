@@ -2,10 +2,11 @@ package class164;
 
 // youyou的军训，C++版
 // 图里有n个点，m条无向边，每条边给定不同的边权，图里可能有若干个连通的部分
-// 一共有q条操作，每条操作都是如下的三种类型中的一种
-// 操作 1 x   : 限制变量limit，把limit的值改成x
-// 操作 2 x   : 点x不能走过任何边权小于limit的边，打印此时x所在的连通区域大小
-// 操作 3 x y : 第x条边的边权修改为y，题目保证修改之后，第x条边的边权排名不变
+// 一开始limit = 0，接下来有q条操作，每种操作的格式如下
+// 操作 1 x   : 所有修改操作生效，然后limit设置成x
+// 操作 2 x   : 从点x出发，只能走 边权 >= limit 的边，查询最多到达几个点
+// 操作 3 x y : 第x条边的边权修改为y，不是立刻生效，等到下次操作1发生时生效
+// 题目保证边权不管如何修改，所有边权都不相等，并且每条边的边权排名不发生变化
 // 1 <= n、m、q <= 4 * 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/P9638
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
@@ -25,10 +26,15 @@ package class164;
 //
 //const int MAXK = 800001;
 //const int MAXM = 400001;
-//const int MAXH = 20;
+//const int MAXP = 20;
 //int n, m, q;
+//
 //Edge edge[MAXM];
 //int edgeToTree[MAXM];
+//
+//int pendEdge[MAXM];
+//int pendVal[MAXM];
+//int cntp;
 //
 //int father[MAXK];
 //
@@ -40,7 +46,7 @@ package class164;
 //int cntu;
 //
 //int leafsiz[MAXK];
-//int stjump[MAXK][MAXH];
+//int stjump[MAXK][MAXP];
 //
 //int find(int i) {
 //    if (i != father[i]) {
@@ -77,7 +83,7 @@ package class164;
 //
 //void dfs(int u, int fa) {
 //    stjump[u][0] = fa;
-//    for (int p = 1; p < MAXH; p++) {
+//    for (int p = 1; p < MAXP; p++) {
 //        stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
 //    }
 //    for (int e = head[u]; e > 0; e = nxt[e]) {
@@ -94,7 +100,7 @@ package class164;
 //}
 //
 //int query(int u, int limit) {
-//    for (int p = MAXH - 1; p >= 0; p--) {
+//    for (int p = MAXP - 1; p >= 0; p--) {
 //        if (stjump[u][p] > 0 && nodeKey[stjump[u][p]] >= limit) {
 //            u = stjump[u][p];
 //        }
@@ -120,6 +126,10 @@ package class164;
 //    for (int i = 1; i <= q; i++) {
 //        cin >> op;
 //        if (op == 1) {
+//            for (int k = 1; k <= cntp; k++) {
+//                nodeKey[edgeToTree[pendEdge[k]]] = pendVal[k];
+//            }
+//            cntp = 0;
 //            cin >> limit;
 //        } else if (op == 2) {
 //            cin >> x;
@@ -127,7 +137,8 @@ package class164;
 //        } else {
 //            cin >> x >> y;
 //            if (edgeToTree[x] != 0) {
-//                nodeKey[edgeToTree[x]] = y;
+//                pendEdge[++cntp] = x;
+//                pendVal[cntp] = y;
 //            }
 //        }
 //    }

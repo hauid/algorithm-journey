@@ -14,11 +14,7 @@ package class151;
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
 // 提交如下代码，可以通过所有测试用例
 
-//#include <iostream>
-//#include <algorithm>
-//#include <cstring>
-//#include <random>
-//#include <climits>
+//#include <bits/stdc++.h>
 //
 //using namespace std;
 //
@@ -30,11 +26,11 @@ package class151;
 //int key_count[MAXN];
 //int ls[MAXN];
 //int rs[MAXN];
-//int size[MAXN];
+//int siz[MAXN];
 //double priority[MAXN];
 //
 //void up(int i) {
-//    size[i] = size[ls[i]] + size[rs[i]] + key_count[i];
+//    siz[i] = siz[ls[i]] + siz[rs[i]] + key_count[i];
 //}
 //
 //int leftRotate(int i) {
@@ -58,7 +54,7 @@ package class151;
 //int add(int i, int num) {
 //    if (i == 0) {
 //        key[++cnt] = num;
-//        key_count[cnt] = size[cnt] = 1;
+//        key_count[cnt] = siz[cnt] = 1;
 //        priority[cnt] = static_cast<double>(rand()) / RAND_MAX;
 //        return cnt;
 //    }
@@ -90,7 +86,7 @@ package class151;
 //    if (key[i] >= num) {
 //        return small(ls[i], num);
 //    } else {
-//        return size[ls[i]] + key_count[i] + small(rs[i], num);
+//        return siz[ls[i]] + key_count[i] + small(rs[i], num);
 //    }
 //}
 //
@@ -99,10 +95,10 @@ package class151;
 //}
 //
 //int index(int i, int x) {
-//    if (size[ls[i]] >= x) {
+//    if (siz[ls[i]] >= x) {
 //        return index(ls[i], x);
-//    } else if (size[ls[i]] + key_count[i] < x) {
-//        return index(rs[i], x - size[ls[i]] - key_count[i]);
+//    } else if (siz[ls[i]] + key_count[i] < x) {
+//        return index(rs[i], x - siz[ls[i]] - key_count[i]);
 //    }
 //    return key[i];
 //}
@@ -178,12 +174,12 @@ package class151;
 //}
 //
 //void clear() {
-//    fill(key + 1, key + cnt + 1, 0);
-//    fill(key_count + 1, key_count + cnt + 1, 0);
-//    fill(ls + 1, ls + cnt + 1, 0);
-//    fill(rs + 1, rs + cnt + 1, 0);
-//    fill(size + 1, size + cnt + 1, 0);
-//    fill(priority + 1, priority + cnt + 1, 0);
+//    memset(key + 1, 0, cnt * sizeof(int));
+//    memset(key_count + 1, 0, cnt * sizeof(int));
+//    memset(ls + 1, 0, cnt * sizeof(int));
+//    memset(rs + 1, 0, cnt * sizeof(int));
+//    memset(siz + 1, 0, cnt * sizeof(int));
+//    memset(priority + 1, 0, cnt * sizeof(int));
 //    cnt = 0;
 //    head = 0;
 //}

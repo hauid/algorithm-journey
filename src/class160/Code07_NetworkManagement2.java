@@ -18,7 +18,7 @@ package class160;
 //
 //const int MAXN = 80001;
 //const int MAXT = MAXN * 110;
-//const int MAXH = 18;
+//const int MAXP = 18;
 //int n, m, s;
 //
 //int arr[MAXN];
@@ -37,9 +37,9 @@ package class160;
 //int cntt;
 //
 //int deep[MAXN];
-//int size[MAXN];
+//int siz[MAXN];
 //int dfn[MAXN];
-//int stjump[MAXN][MAXH];
+//int stjump[MAXN][MAXP];
 //int cntd;
 //
 //int addTree[MAXN];
@@ -69,29 +69,29 @@ package class160;
 //
 //void dfs(int u, int fa) {
 //    deep[u] = deep[fa] + 1;
-//    size[u] = 1;
+//    siz[u] = 1;
 //    dfn[u] = ++cntd;
 //    stjump[u][0] = fa;
-//    for (int p = 1; p < MAXH; p++) {
+//    for (int p = 1; p < MAXP; p++) {
 //        stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
 //    }
 //    for (int e = head[u]; e; e = nxt[e]) {
 //        if (to[e] != fa) dfs(to[e], u);
 //    }
 //    for (int e = head[u]; e; e = nxt[e]) {
-//        if (to[e] != fa) size[u] += size[to[e]];
+//        if (to[e] != fa) siz[u] += siz[to[e]];
 //    }
 //}
 //
 //int lca(int a, int b) {
 //    if (deep[a] < deep[b]) swap(a, b);
-//    for (int p = MAXH - 1; p >= 0; p--) {
+//    for (int p = MAXP - 1; p >= 0; p--) {
 //        if (deep[stjump[a][p]] >= deep[b]) {
 //            a = stjump[a][p];
 //        }
 //    }
 //    if (a == b) return a;
-//    for (int p = MAXH - 1; p >= 0; p--) {
+//    for (int p = MAXP - 1; p >= 0; p--) {
 //        if (stjump[a][p] != stjump[b][p]) {
 //            a = stjump[a][p];
 //            b = stjump[b][p];
@@ -153,10 +153,10 @@ package class160;
 //
 //void update(int i, int v) {
 //    add(dfn[i], arr[i], -1);
-//    add(dfn[i] + size[i], arr[i], 1);
+//    add(dfn[i] + siz[i], arr[i], 1);
 //    arr[i] = kth(v);
 //    add(dfn[i], arr[i], 1);
-//    add(dfn[i] + size[i], arr[i], -1);
+//    add(dfn[i] + siz[i], arr[i], -1);
 //}
 //
 //int query(int x, int y, int k) {
@@ -192,7 +192,7 @@ package class160;
 //    dfs(1, 0);
 //    for (int i = 1; i <= n; i++) {
 //        add(dfn[i], arr[i], 1);
-//        add(dfn[i] + size[i], arr[i], -1);
+//        add(dfn[i] + siz[i], arr[i], -1);
 //    }
 //}
 //
